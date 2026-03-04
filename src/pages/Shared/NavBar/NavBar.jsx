@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router";
+import logo from "../../../assets/logo.png"
 
 const NavBar = () => {
   const links = (
@@ -41,7 +42,7 @@ const NavBar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <img className="w-[80px]" src={logo} alt="ParcelHub logo" />
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
