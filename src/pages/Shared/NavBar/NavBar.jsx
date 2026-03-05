@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import logo from "../../../assets/logo.png"
 
 const NavBar = () => {
@@ -42,7 +42,7 @@ const NavBar = () => {
             {links}
           </ul>
         </div>
-        <img className="w-[80px]" src={logo} alt="ParcelHub logo" />
+        <Link to='/'><img className="w-[200px]" src={logo} alt="ParcelHub logo" /></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
