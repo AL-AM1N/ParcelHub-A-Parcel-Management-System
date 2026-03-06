@@ -61,11 +61,11 @@ const OurServices = () => {
         </div>
 
         {/* Cards */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 ">
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition duration-300"
+              className="place-items-center text-center bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition duration-300 hover:bg-lime-200"
             >
               <div className="text-4xl text-blue-600 mb-4">
                 {service.icon}
