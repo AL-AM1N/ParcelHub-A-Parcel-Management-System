@@ -42,7 +42,7 @@ const NavBar = () => {
             {links}
           </ul>
         </div>
-        <Link to='/'><img className="w-[200px]" src={logo} alt="ParcelHub logo" /></Link>
+        <Link to='/'><img className="w-[200px] h-16" src={logo} alt="ParcelHub logo" /></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
