@@ -12,7 +12,7 @@ const logos = [logo1, logo2, logo3, logo4, logo5, logo6, logo7]
 
 const ClientLogosMarquee = () => {
   return (
-    <section className="py-14 bg-white">
+    <section className="py-14 bg-[#EAECED]">
       <div className="max-w-6xl mx-auto px-4 mb-10 text-center">
         <p className="text-primary font-bold mt-2 ">
           We've helped thousands of sales teams
