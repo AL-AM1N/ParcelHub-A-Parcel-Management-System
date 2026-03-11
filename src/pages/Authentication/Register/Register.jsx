@@ -1,8 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
+  const { createUser } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -11,6 +15,13 @@ const Register = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div>
@@ -26,7 +37,7 @@ const Register = () => {
                 {...register("email", {
                   required: true,
                 })}
-                className="input"
+                className="input  w-full"
                 placeholder="Email"
               />
               {errors.email?.type === "required" && (
@@ -41,7 +52,7 @@ const Register = () => {
                   required: true,
                   minLength: 6,
                 })}
-                className="input"
+                className="input w-full"
                 placeholder="Password"
               />
               {errors.password?.type === "required" && (
@@ -51,17 +62,18 @@ const Register = () => {
                 <p className="text-red-500">Password must be 6 charecters</p>
               )}
 
-              <div>
-                <p className="link link-hover">
-                  Already have an account!{" "}
-                  <span className="text-cyan-400 font-bold">
-                    <Link to="/login">Login</Link>
-                  </span>
-                </p>
-              </div>
-              <button className="btn btn-neutral mt-4">Register</button>
+              <button className="btn btn-primary text-black mt-4">
+                Register
+              </button>
             </fieldset>
+            <p className="link link-hover">
+                <small className="text-cyan-400 font-bold">
+              Already have an account!
+                <Link to="/login" className="btn btn-link">Login</Link>
+              </small>
+            </p>
           </form>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>
