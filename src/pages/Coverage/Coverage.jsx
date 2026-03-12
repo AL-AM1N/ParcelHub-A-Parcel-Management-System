@@ -49,7 +49,7 @@ const Coverage = () => {
                 </form>
             </div>
             {/*  */}
-            <div className='border w-full h-[800px]'>
+            <div className='border w-full h-200'>
                 <MapContainer
                     center={position}
                     zoom={8}
