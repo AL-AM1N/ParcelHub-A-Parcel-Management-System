@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2"; // ⭐ UPDATED
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingID = () => {
   const date = new Date();
@@ -15,6 +16,7 @@ const generateTrackingID = () => {
 const SendParcel = () => {
   const centers = useLoaderData();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   // ⭐ UPDATED: get unique regions from loader data
   const regions = [...new Set(centers.map((c) => c.region))];
@@ -95,6 +97,20 @@ Total: ৳${cost}
           tracking_id: generateTrackingID()
         };
         console.log(parcelData);
+        axiosSecure.post('/parcels', parcelData)
+        .then(res => {
+          console.log(res.data);
+          if(res.data.insertedId) {
+            // redirect to the payment page
+            Swal.fire({
+              title:"Redirecting...",
+              text:"Proceeding to payment gateway.",
+              icon: "success",
+              timer:1500,
+              showConfirmButton:false,
+            });
+          }
+        })
       }
       
     });
