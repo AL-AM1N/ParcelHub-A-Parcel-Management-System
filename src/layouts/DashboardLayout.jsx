@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 
 const DashboardLayout = () => {
   return (
@@ -47,10 +47,10 @@ const DashboardLayout = () => {
         <ul className="menu bg-base-200 min-h-full w-80 p-4">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1s</a>
+            <Link to="/dashboard">Home</Link>
           </li>
           <li>
-            <a>Sidebar Item 2s</a>
+            <Link to="/dashboard/myParcels">My parcels</Link>
           </li>
         </ul>
       </div>
