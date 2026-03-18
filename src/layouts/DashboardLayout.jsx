@@ -1,6 +1,13 @@
 import React from "react";
 import { Link, Outlet } from "react-router";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
+import {
+  FaHome,
+  FaBox,
+  FaMoneyBill,
+  FaSearch,
+  FaUserEdit,
+} from "react-icons/fa";
 
 const DashboardLayout = () => {
   return (
@@ -31,9 +38,9 @@ const DashboardLayout = () => {
               </svg>
             </label>
           </div>
-          <Link to='/'><img className="w-50 h-16" src={logo} alt="ParcelHub logo" /></Link>
-          
-            
+          <Link to="/">
+            <img className="w-50 h-16" src={logo} alt="ParcelHub logo" />
+          </Link>
         </div>
         {/* Page content here */}
         <Outlet></Outlet>
@@ -48,10 +55,39 @@ const DashboardLayout = () => {
         <ul className="menu bg-base-200 min-h-full w-80 p-4">
           {/* Sidebar content here */}
           <li>
-            <Link to="/dashboard">Home</Link>
+            <Link to="/dashboard" className="flex items-center gap-2">
+              <FaHome /> Home
+            </Link>
           </li>
+
           <li>
-            <Link to="/dashboard/myParcels">My parcels</Link>
+            <Link to="/dashboard/myParcels" className="flex items-center gap-2">
+              <FaBox /> My Parcels
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/dashboard/paymentHistory"
+              className="flex items-center gap-2"
+            >
+              <FaMoneyBill /> Payment History
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/dashboard/track" className="flex items-center gap-2">
+              <FaSearch /> Track a Package
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/dashboard/updateProfile"
+              className="flex items-center gap-2"
+            >
+              <FaUserEdit /> Update Profile
+            </Link>
           </li>
         </ul>
       </div>
