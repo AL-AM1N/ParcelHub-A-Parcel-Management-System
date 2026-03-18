@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router";
+import logo from '../assets/logo.png'
 
 const DashboardLayout = () => {
   return (
@@ -30,7 +31,7 @@ const DashboardLayout = () => {
               </svg>
             </label>
           </div>
-          <div className="mx-2 flex-1 px-2">Dashboard</div>
+          <Link to='/'><img className="w-50 h-16" src={logo} alt="ParcelHub logo" /></Link>
           
             
         </div>
