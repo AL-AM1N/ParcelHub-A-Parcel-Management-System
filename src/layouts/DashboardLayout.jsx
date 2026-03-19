@@ -7,6 +7,8 @@ import {
   FaMoneyBill,
   FaSearch,
   FaUserEdit,
+  FaUserCheck,
+  FaUserClock,
 } from "react-icons/fa";
 
 const DashboardLayout = () => {
@@ -78,6 +80,24 @@ const DashboardLayout = () => {
           <li>
             <Link to="/dashboard/track" className="flex items-center gap-2">
               <FaSearch /> Track a Package
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/dashboard/active-riders"
+              className="flex items-center gap-2"
+            >
+              <FaUserCheck /> Active Riders
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/dashboard/pending-riders"
+              className="flex items-center gap-2"
+            >
+              <FaUserClock /> Pending Riders
             </Link>
           </li>
 

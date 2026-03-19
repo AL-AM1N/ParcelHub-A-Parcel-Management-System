@@ -4,6 +4,7 @@ import { useLoaderData } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+
 const BeARider = () => {
   const { user } = useAuth();
   const centers = useLoaderData();
@@ -12,12 +13,7 @@ const BeARider = () => {
   // Get unique regions
   const regions = [...new Set(centers.map((c) => c.region))];
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-  } = useForm();
+  const { register, handleSubmit, watch, reset } = useForm();
 
   const selectedRegion = watch("region");
 
@@ -27,39 +23,32 @@ const BeARider = () => {
   const onSubmit = async (data) => {
     const riderData = {
       ...data,
-      name: user?.displayName,
-      email: user?.email,
-      status: "pending", // ⭐ IMPORTANT
+      name: user?.displayName || "",
+      email: user?.email || "",
+      status: "pending",
       created_at: new Date().toISOString(),
     };
 
-    console.log(riderData);
+    console.log("Rider Application", riderData);
 
-    try {
-      const res = await axiosSecure.post("/riders", riderData);
-
+    await axiosSecure.post("/riders", riderData).then((res) => {
       if (res.data.insertedId) {
         Swal.fire({
           icon: "success",
           title: "Application Submitted",
           text: "Your rider application is pending approval.",
         });
-        reset();
+        //reset();
       }
-    } catch (err) {
-      Swal.fire("Error", "Something went wrong!", "error");
-    }
+    });
   };
 
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-4">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl">
-        <h1 className="text-3xl font-bold mb-6 text-teal-900">
-          Be A Rider
-        </h1>
+        <h1 className="text-3xl font-bold mb-6 text-teal-900">Be A Rider</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
           {/* Name */}
           <div>
             <p>Name</p>
