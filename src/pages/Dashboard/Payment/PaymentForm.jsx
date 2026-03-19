@@ -89,7 +89,7 @@ const PaymentForm = () => {
         if (result.paymentIntent.status === "succeeded") {
           console.log("Payment Success ✅");
 
-          // 👉 IMPORTANT: save payment in DB
+          //IMPORTANT: save payment in DB
           console.log(result);
 
           const paymentData = {

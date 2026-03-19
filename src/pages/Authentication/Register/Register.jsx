@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import axios from "axios";
 
 const Register = () => {
-  const { createUser } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
+  const [profilePic, setProfilePic] = useState('');
 
   const {
     register,
@@ -18,11 +20,42 @@ const Register = () => {
     createUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+
+        // update userinfo in the database
+
+        // update user profile in firebase
+        const userProfile = {
+          displayName: data.name,
+          photoURL: profilePic
+        }
+        updateUserProfile(userProfile)
+        .then(() => {
+          console.log("profile name pic updated")
+        })
+        .catch(error => {
+          console.log(error);
+        })
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const handleImageUpload = async(e) => {
+    const image = e.target.files[0];
+    console.log(image);
+
+    const formData = new FormData();
+    formData.append('image', image);
+
+    const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
+
+    const res = await axios.post(imageUploadUrl, formData);
+
+    //console.log(res.data.data.url);
+    setProfilePic(res.data.data.url);
+  }
+
   return (
     <div>
       <div className="card w-full max-w-sm">
@@ -30,6 +63,28 @@ const Register = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset">
+              {/* name field */}
+              <label className="label">Your Name</label>
+              <input
+                type="text"
+                {...register("name", {
+                  required: true,
+                })}
+                className="input  w-full"
+                placeholder="Your Name"
+              />
+              {errors.name?.type === "required" && (
+                <p className="text-red-500">Name is required</p>
+              )}
+              {/* profile picture field */}
+              <label className="label">Your Profile Picture</label>
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                className="input  w-full"
+                placeholder="Your Name"
+              />
+              
               {/* email field */}
               <label className="label">Email</label>
               <input
