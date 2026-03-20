@@ -21,7 +21,7 @@ const PendingRiders = () => {
   }
 
   // approve rider
-  const handleDecision = async (id, action) => {
+  const handleDecision = async (id, action, email) => {
 
     const confirm = await Swal.fire({
         title:`${action === "approve" ? "approved" : "rejected"} Application?`,
@@ -34,10 +34,14 @@ const PendingRiders = () => {
     if(!confirm.isConfirmed) return;
 
     try {
+      const status = action === "approve" ? "active" : "rejected";
       await axiosSecure.patch(`/riders/${id}/status`, {
-        status: action === "approve" ? "active" : "rejected",
+        status,
+        email,
       });
+
       refetch();
+      
       Swal.fire("Success", `Rider ${action}d successfully`, "success");
     } catch (err) {
       Swal.fire("Error", "Could not update rider status", "error");
@@ -87,14 +91,14 @@ const PendingRiders = () => {
 
                 <td className="space-x-2">
                   <button
-                    onClick={() => handleDecision(rider._id, "approve")}
+                    onClick={() => handleDecision(rider._id, "approve", rider.email)}
                     className="btn btn-success btn-sm"
                   >
                     Approve
                   </button>
 
                   <button
-                    onClick={() => handleDecision(rider._id, "reject")}
+                    onClick={() => handleDecision(rider._id, "reject", rider.email)}
                     className="btn btn-error btn-sm"
                   >
                     Cancel

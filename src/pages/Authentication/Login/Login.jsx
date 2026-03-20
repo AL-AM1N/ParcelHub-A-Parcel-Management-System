@@ -10,24 +10,23 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
-  const {signIn} = useAuth();
+
+  const { signIn } = useAuth();
   const location = useLocation();
   console.log(location);
   const navigate = useNavigate();
-  const from = location.state?.from || '/';
-
+  const from = location.state?.from || "/";
 
   const onSubmit = (data) => {
     console.log(data);
     signIn(data.email, data.password)
-    .then(result => {
-      console.log(result.user);
-      navigate(from);
-    })
-    .catch(error => {
-      console.log(error);
-    })
+      .then((result) => {
+        console.log(result.user);
+        navigate(from);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -67,11 +66,13 @@ const Login = () => {
             <button className="btn btn-primary text-black mt-4">Login</button>
           </fieldset>
           <p className="link link-hover">
-                <small className="text-cyan-400 font-bold">
+            <small className="text-cyan-400 font-bold">
               New to this website?
-                <Link to="/register" className="btn btn-link">Register</Link>
-              </small>
-            </p>
+              <Link state={{ from }} to="/register" className="btn btn-link">
+                Register
+              </Link>
+            </small>
+          </p>
         </form>
         <SocialLogin></SocialLogin>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
@@ -8,8 +8,12 @@ import useAxios from "../../../hooks/useAxios";
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState("");
   const axiosInstance = useAxios();
+  const location = useLocation();
+  console.log(location);
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
 
   const {
     register,
@@ -20,45 +24,46 @@ const Register = () => {
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
-      .then(async(result) => {
+      .then(async (result) => {
         console.log(result.user);
 
         // update userinfo in the database
 
         const userInfo = {
           email: data.email,
-          role: 'user', // default role
+          role: "user", // default role
           created_at: new Date().toISOString(),
-          last_log_in: new Date().toString()
-        }
+          last_log_in: new Date().toString(),
+        };
 
-        const userRes = await axiosInstance.post('/users', userInfo);
+        const userRes = await axiosInstance.post("/users", userInfo);
         console.log(userRes.data);
 
         // update user profile in firebase
         const userProfile = {
           displayName: data.name,
-          photoURL: profilePic
-        }
+          photoURL: profilePic,
+        };
         updateUserProfile(userProfile)
-        .then(() => {
-          console.log("profile name pic updated")
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .then(() => {
+            console.log("profile name pic updated");
+            navigate(from);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const handleImageUpload = async(e) => {
+  const handleImageUpload = async (e) => {
     const image = e.target.files[0];
     console.log(image);
 
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append("image", image);
 
     const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`;
 
@@ -66,7 +71,7 @@ const Register = () => {
 
     //console.log(res.data.data.url);
     setProfilePic(res.data.data.url);
-  }
+  };
 
   return (
     <div>
@@ -96,7 +101,7 @@ const Register = () => {
                 className="input  w-full"
                 placeholder="Your Name"
               />
-              
+
               {/* email field */}
               <label className="label">Email</label>
               <input
@@ -134,9 +139,11 @@ const Register = () => {
               </button>
             </fieldset>
             <p className="link link-hover">
-                <small className="text-cyan-400 font-bold">
-              Already have an account!
-                <Link to="/login" className="btn btn-link">Login</Link>
+              <small className="text-cyan-400 font-bold">
+                Already have an account!
+                <Link to="/login" className="btn btn-link">
+                  Login
+                </Link>
               </small>
             </p>
           </form>
