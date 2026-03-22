@@ -11,8 +11,12 @@ import {
   FaUserClock,
   FaUserShield,
 } from "react-icons/fa";
+import useUserRole from "../hooks/useUserRole";
 
 const DashboardLayout = () => {
+  const { role, roleLoading } = useUserRole();
+  console.log(role);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -86,38 +90,43 @@ const DashboardLayout = () => {
 
           <li>
             <Link
-              to="/dashboard/active-riders"
-              className="flex items-center gap-2"
-            >
-              <FaUserCheck /> Active Riders
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              to="/dashboard/pending-riders"
-              className="flex items-center gap-2"
-            >
-              <FaUserClock /> Pending Riders
-            </Link>
-          </li>
-
-          <li>
-            <Link
               to="/dashboard/updateProfile"
               className="flex items-center gap-2"
             >
               <FaUserEdit /> Update Profile
             </Link>
           </li>
-          <li>
-            <Link
-              to="/dashboard/makeAdmin"
-              className="flex items-center gap-2"
-            >
-              <FaUserShield /> Make Admin
-            </Link>
-          </li>
+
+          { !roleLoading && role === 'admin' &&
+            <>
+              <li>
+                <Link
+                  to="/dashboard/active-riders"
+                  className="flex items-center gap-2"
+                >
+                  <FaUserCheck /> Active Riders
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/dashboard/pending-riders"
+                  className="flex items-center gap-2"
+                >
+                  <FaUserClock /> Pending Riders
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/dashboard/makeAdmin"
+                  className="flex items-center gap-2"
+                >
+                  <FaUserShield /> Make Admin
+                </Link>
+              </li>
+            </>
+          }
         </ul>
       </div>
     </div>
