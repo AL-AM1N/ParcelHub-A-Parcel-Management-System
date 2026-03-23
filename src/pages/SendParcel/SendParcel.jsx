@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2"; // ⭐ UPDATED
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -8,15 +8,15 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const generateTrackingID = () => {
   const date = new Date();
   const datePart = date.toISOString().split("T")[0].replace(/-/g, "");
-  const rand = Math.random().toString(36).substring(2,7).toUpperCase();
+  const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
   return `PCL-${datePart}-${rand}`;
-}
-
+};
 
 const SendParcel = () => {
   const centers = useLoaderData();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   // ⭐ UPDATED: get unique regions from loader data
   const regions = [...new Set(centers.map((c) => c.region))];
@@ -94,25 +94,24 @@ Total: ৳${cost}
           payment_status: "unpaid",
           delivery_status: "not_collected",
           creation_date: new Date().toISOString(),
-          tracking_id: generateTrackingID()
+          tracking_id: generateTrackingID(),
         };
         console.log(parcelData);
-        axiosSecure.post('/parcels', parcelData)
-        .then(res => {
+        axiosSecure.post("/parcels", parcelData).then((res) => {
           console.log(res.data);
-          if(res.data.insertedId) {
-            // redirect to the payment page
+          if (res.data.insertedId) {
             Swal.fire({
-              title:"Redirecting...",
-              text:"Proceeding to payment gateway.",
+              title: "Redirecting...",
+              text: "Proceeding to payment gateway.",
               icon: "success",
-              timer:1500,
-              showConfirmButton:false,
+              timer: 1500,
+              showConfirmButton: false,
             });
+            // redirect to the payment page
+            navigate("/dashboard/myParcels");
           }
-        })
+        });
       }
-      
     });
   };
 
@@ -189,7 +188,7 @@ Total: ৳${cost}
                   <p className="mb-1 text-sm">Sender Name</p>
                   <input
                     type="text"
-                    placeholder="Sender Name"
+                    value={user.displayName}
                     className="input input-bordered w-full"
                     {...register("senderName", { required: true })}
                   />

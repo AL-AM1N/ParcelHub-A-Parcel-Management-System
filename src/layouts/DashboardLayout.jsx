@@ -11,6 +11,7 @@ import {
   FaUserClock,
   FaUserShield,
   FaMotorcycle,
+  FaTasks,
 } from "react-icons/fa";
 import useUserRole from "../hooks/useUserRole";
 
@@ -97,7 +98,23 @@ const DashboardLayout = () => {
               <FaUserEdit /> Update Profile
             </Link>
           </li>
+          {/* rider links */}
+          {
+            !roleLoading && role === 'rider' && <>
+            
+            <li>
+                <Link
+                  to="/dashboard/pending-deliveries"
+                  className="flex items-center gap-2"
+                >
+                  <FaTasks /> Pending Deliveries
+                </Link>
+              </li>
+            
+            </>
+          }
 
+          {/* admin links */}
           { !roleLoading && role === 'admin' &&
             <>
               <li>
