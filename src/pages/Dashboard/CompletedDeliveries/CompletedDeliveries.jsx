@@ -14,7 +14,7 @@ const CompletedDeliveries = () => {
   const email = user?.email;
   const queryClient = useQueryClient();
 
-  // 🔄 fetch completed deliveries
+  // fetch completed deliveries
   const { data: parcels = [], isLoading } = useQuery({
     queryKey: ["completed-deliveries", email],
     enabled: !!email,
@@ -26,7 +26,7 @@ const CompletedDeliveries = () => {
     },
   });
 
-  // 💰 calculate earnings (your logic)
+  // calculate earnings (your logic)
   const calculateEarning = (parcel) => {
     const cost = Number(parcel.cost);
 
@@ -37,13 +37,13 @@ const CompletedDeliveries = () => {
     }
   };
 
-  // 💰 total earning
+  // total earning
   const totalEarning = parcels.reduce(
     (sum, parcel) => sum + calculateEarning(parcel),
     0
   );
 
-  // ⚡ mutation for cashout
+  // mutation for cashout
   const cashoutMutation = useMutation({
     mutationFn: async (parcelId) => {
       const res = await axiosSecure.patch(
@@ -63,7 +63,7 @@ const CompletedDeliveries = () => {
     },
   });
 
-  // 💵 handle cashout
+  //handle cashout
   const handleCashout = (parcel) => {
     if (parcel.cashout_status === "cashed_out") {
       return Swal.fire("Already Cashed Out", "", "info");
@@ -94,7 +94,7 @@ const CompletedDeliveries = () => {
         Completed Deliveries
       </h2>
 
-      {/* 💰 Total Earnings */}
+      {/* Total Earnings */}
       {/* <p className="mb-4 text-lg font-semibold">
         Total Earnings:{" "}
         <span className="text-green-600">
@@ -168,7 +168,7 @@ const CompletedDeliveries = () => {
                         parcel.cashout_status === "cashed_out" ||
                         cashoutMutation.isLoading
                       }
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary text-black  btn-sm"
                     >
                       {parcel.cashout_status === "cashed_out"
                         ? "Cashed Out"

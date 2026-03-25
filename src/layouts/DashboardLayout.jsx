@@ -13,6 +13,7 @@ import {
   FaMotorcycle,
   FaTasks,
   FaCheckCircle,
+  FaWallet,
 } from "react-icons/fa";
 import useUserRole from "../hooks/useUserRole";
 
@@ -117,6 +118,14 @@ const DashboardLayout = () => {
                   className="flex items-center gap-2"
                 >
                   <FaCheckCircle /> Completed Deliveries
+                </Link>
+              </li>
+            <li>
+                <Link
+                  to="/dashboard/my-earnings"
+                  className="flex items-center gap-2"
+                >
+                  <FaWallet />My Earnings
                 </Link>
               </li>
             
