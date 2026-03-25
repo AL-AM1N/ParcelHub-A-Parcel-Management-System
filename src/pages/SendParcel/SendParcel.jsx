@@ -4,6 +4,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2"; // ⭐ UPDATED
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useTrackingLogger from "../../hooks/useTrackingLogger";
 
 const generateTrackingID = () => {
   const date = new Date();
@@ -17,6 +18,7 @@ const SendParcel = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const { logTracking } = useTrackingLogger();
 
   // ⭐ UPDATED: get unique regions from loader data
   const regions = [...new Set(centers.map((c) => c.region))];
@@ -87,6 +89,7 @@ Total: ৳${cost}
       cancelButtonText: "Continue Editing",
     }).then((result) => {
       if (result.isConfirmed) {
+        const tracking_id = generateTrackingID();
         const parcelData = {
           ...data,
           cost: cost,
@@ -94,10 +97,10 @@ Total: ৳${cost}
           payment_status: "unpaid",
           delivery_status: "not_collected",
           creation_date: new Date().toISOString(),
-          tracking_id: generateTrackingID(),
+          tracking_id: tracking_id,
         };
         console.log(parcelData);
-        axiosSecure.post("/parcels", parcelData).then((res) => {
+        axiosSecure.post("/parcels", parcelData).then(async (res) => {
           console.log(res.data);
           if (res.data.insertedId) {
             Swal.fire({
@@ -106,6 +109,13 @@ Total: ৳${cost}
               icon: "success",
               timer: 1500,
               showConfirmButton: false,
+            });
+
+            await logTracking({
+              tracking_id: parcelData.tracking_id,
+              status: "parcel_created",
+              details: `Created by ${user.displayName}`,
+              updated_by: user.email,
             });
             // redirect to the payment page
             navigate("/dashboard/myParcels");

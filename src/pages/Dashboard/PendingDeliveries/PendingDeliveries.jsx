@@ -3,11 +3,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useTrackingLogger from "../../../hooks/useTrackingLogger";
 
 const PendingDeliveries = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { logTracking } = useTrackingLogger();
 
   const { data: parcels = [], isLoading } = useQuery({
     queryKey: ["riderParcels", user?.email],
@@ -19,8 +21,8 @@ const PendingDeliveries = () => {
   });
 
   const { mutateAsync: updateStatus } = useMutation({
-    mutationFn: async ({ parcelId, status }) => {
-      const res = await axiosSecure.patch(`/parcels/${parcelId}/status`, {
+    mutationFn: async ({ parcel, status }) => {
+      const res = await axiosSecure.patch(`/parcels/${parcel._id}/status`, {
         status,
       });
       return res.data;
@@ -30,7 +32,7 @@ const PendingDeliveries = () => {
     },
   });
 
-  const handleStatusUpdate = (parcelId, newStatus) => {
+  const handleStatusUpdate = (parcel, newStatus) => {
     Swal.fire({
       title: "Are you sure?",
       text: `Mark parcel as ${newStatus.replace("_", " ")}?`,
@@ -39,9 +41,21 @@ const PendingDeliveries = () => {
       confirmButtonText: "Yes, update",
     }).then((result) => {
       if (result.isConfirmed) {
-        updateStatus({ parcelId, status: newStatus })
-          .then(() => {
+        updateStatus({ parcel, status: newStatus })
+          .then(async() => {
             Swal.fire("Updated!", "Parcel status updated.", "success");
+
+            let trackDetails = `Picked up by ${user.displayName}`
+            // log tracking 
+            if(newStatus === 'delivered'){
+             trackDetails = `Delivered by ${user.displayName}`
+            }
+             await logTracking({
+              tracking_id: parcel.tracking_id,
+              status: newStatus,
+              details: trackDetails,
+              updated_by: user.email,
+            });
           })
           .catch(() => {
             Swal.fire("Error", "Failed to update status", "error");
@@ -122,7 +136,7 @@ const PendingDeliveries = () => {
                 {/* PICKUP */}
                 {parcel.delivery_status === "rider_assigned" && (
                   <button
-                    onClick={() => handleStatusUpdate(parcel._id, "in_transit")}
+                    onClick={() => handleStatusUpdate(parcel, "in_transit")}
                     className="btn btn-sm btn-warning text-black"
                   >
                     Picked Up
@@ -132,7 +146,7 @@ const PendingDeliveries = () => {
                 {/* DELIVER */}
                 {parcel.delivery_status === "in_transit" && (
                   <button
-                    onClick={() => handleStatusUpdate(parcel._id, "delivered")}
+                    onClick={() => handleStatusUpdate(parcel, "delivered")}
                     className="btn btn-sm btn-success"
                   >
                     Delivered
