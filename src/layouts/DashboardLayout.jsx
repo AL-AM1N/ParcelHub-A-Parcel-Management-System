@@ -58,6 +58,9 @@ const DashboardLayout = () => {
         {/* Page content here */}
       </div>
       <div className="drawer-side">
+        <Link to="/">
+            <img className="w-50 h-16" src={logo} alt="ParcelHub logo" />
+          </Link>
         <label
           htmlFor="my-drawer-3"
           aria-label="close sidebar"
