@@ -24,6 +24,7 @@ import PendingDeliveries from "../pages/Dashboard/PendingDeliveries/PendingDeliv
 import CompletedDeliveries from "../pages/Dashboard/CompletedDeliveries/CompletedDeliveries";
 import MyEarnings from "../pages/Dashboard/MyEarnings/MyEarnings";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
+import About from "../pages/About/About";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
         path:'sendParcel',
         element:<PrivateRoute><SendParcel></SendParcel></PrivateRoute>,
         loader: () => fetch("/serviceCenters.json").then(res => res.json())
+      },
+      {
+        path:'about',
+        Component:About
       }
     ],
   },

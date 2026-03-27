@@ -76,7 +76,7 @@ const Register = () => {
   return (
     <div>
       <div className="card w-full max-w-sm">
-        <h1 className="text-5xl font-bold">Create an account!</h1>
+        <h1 className="text-4xl font-bold">Create an account!</h1>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="fieldset">
