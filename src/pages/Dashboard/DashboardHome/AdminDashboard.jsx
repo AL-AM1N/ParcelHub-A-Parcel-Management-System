@@ -18,7 +18,7 @@ import {
   Legend,
 } from "recharts";
 
-const AdminStats = () => {
+const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
 
   const { data: deliveryStatus = [], isLoading } = useQuery({
@@ -31,10 +31,10 @@ const AdminStats = () => {
     },
   });
 
-  // ✅ normalize status
+  // normalize status
   const normalizeStatus = (status) => status.replace("-", "_");
 
-  // ✅ UI config
+  // UI config
   const statusConfig = {
     in_transit: {
       title: "In Transit",
@@ -76,13 +76,13 @@ const AdminStats = () => {
     );
   }
 
-  // ✅ total count
+  // total count
   const total = deliveryStatus.reduce(
     (sum, item) => sum + item.count,
     0
   );
 
-  // ✅ prepare chart data
+  // prepare chart data
   const chartData = deliveryStatus.map((item) => {
     const key = normalizeStatus(item.status);
     const config = statusConfig[key] || statusConfig.default;
@@ -96,9 +96,9 @@ const AdminStats = () => {
 
   return (
     <div className="p-6">
-      {/* 🔥 Total */}
+      {/* Total */}
       <div className="mb-6">
-        <div className="card bg-gradient-to-r from-teal-400 to-green-400 text-white shadow-lg">
+        <div className="card bg-linear-to-r from-teal-400 to-green-400 text-white shadow-lg">
           <div className="card-body">
             <h2 className="text-xl font-semibold">Total Parcels</h2>
             <p className="text-3xl font-bold">{total}</p>
@@ -109,7 +109,7 @@ const AdminStats = () => {
       {/* 🔹 Grid + Chart */}
       <div className="grid lg:grid-cols-2 gap-6">
         
-        {/* 📊 Cards */}
+        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {deliveryStatus.map((item, index) => {
             const key = normalizeStatus(item.status);
@@ -142,14 +142,14 @@ const AdminStats = () => {
           })}
         </div>
 
-        {/* 🥧 Pie Chart */}
+        {/* Pie Chart */}
         <div className="card bg-base-100 shadow-md">
           <div className="card-body">
             <h2 className="text-lg font-bold mb-4">
               Delivery Status Distribution
             </h2>
 
-            <div className="w-full h-[300px]">
+            <div className="w-full h-75">
               <ResponsiveContainer>
                 <PieChart>
                   <Pie
@@ -180,4 +180,4 @@ const AdminStats = () => {
   );
 };
 
-export default AdminStats;
+export default AdminDashboard;

@@ -26,7 +26,7 @@ const CompletedDeliveries = () => {
     },
   });
 
-  // calculate earnings (your logic)
+  // calculate earnings
   const calculateEarning = (parcel) => {
     const cost = Number(parcel.cost);
 
