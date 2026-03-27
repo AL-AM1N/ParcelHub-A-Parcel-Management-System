@@ -3,9 +3,9 @@ import logo from "../../../assets/logo.png"
 
 const Footer = () => {
   return (
-    <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10">
+    <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10 rounded-2xl">
       <aside>
-        <img className="w-[200px]" src={logo} alt="" />
+        <img className="w-50" src={logo} alt="" />
         <p className="font-bold">
           ACME Industries Ltd.
           <br />

@@ -14,7 +14,7 @@ const ClientLogosMarquee = () => {
   return (
     <section className="py-14 bg-[#EAECED]">
       <div className="max-w-6xl mx-auto px-4 mb-10 text-center">
-        <p className="text-primary font-bold mt-2 ">
+        <p className="text-indigo-950 font-bold mt-2 text-3xl ">
           We've helped thousands of sales teams
         </p>
       </div>
