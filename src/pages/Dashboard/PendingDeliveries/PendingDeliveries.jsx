@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useTrackingLogger from "../../../hooks/useTrackingLogger";
+import Loading from "../../../components/Loading";
 
 const PendingDeliveries = () => {
   const axiosSecure = useAxiosSecure();
@@ -67,7 +68,7 @@ const PendingDeliveries = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <span className="loading loading-spinner loading-lg"></span>
+        <Loading></Loading>
       </div>
     );
   }

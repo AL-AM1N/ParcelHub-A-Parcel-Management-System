@@ -2,6 +2,7 @@ import React from "react";
 import useAuth from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
 import { Navigate } from "react-router";
+import Loading from "../components/Loading";
 
 const AdminRoute = ({children}) => {
 
@@ -9,7 +10,7 @@ const AdminRoute = ({children}) => {
   const { role, roleLoading } = useUserRole();
 
   if (loading || roleLoading) {
-    return <span className="loading loading-spinner loading-xl"></span>;
+    return <Loading></Loading>;
   }
 
   if(!user || role !== 'admin'){

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import logo from "../assets/logo.png";
 import {
   FaHome,
@@ -19,161 +19,157 @@ import useUserRole from "../hooks/useUserRole";
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
-  console.log(role);
+
+  // 🔥 Common class function
+  const navClass = ({ isActive }) =>
+    `flex items-center gap-2 p-2 rounded-lg transition-all ${
+      isActive
+        ? "bg-primary text-black"
+        : "hover:bg-base-300"
+    }`;
 
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+
+      {/* ================= CONTENT ================= */}
       <div className="drawer-content flex flex-col">
-        {/* Page content here */}
-        {/* Navbar */}
+        {/* 🔹 Navbar (mobile) */}
         <div className="navbar bg-base-300 w-full lg:hidden">
-          <div className="flex-none ">
+          <div className="flex-none">
             <label
               htmlFor="my-drawer-3"
-              aria-label="open sidebar"
               className="btn btn-square btn-ghost"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-6 w-6 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
+              ☰
             </label>
           </div>
-          <Link to="/">
-            <img className="w-50 h-16" src={logo} alt="ParcelHub logo" />
-          </Link>
+
+          <NavLink to="/">
+            <img className="w-40 h-14" src={logo} alt="logo" />
+          </NavLink>
         </div>
-        {/* Page content here */}
-        <Outlet></Outlet>
-        {/* Page content here */}
+
+        {/* 🔹 Page Content */}
+        <Outlet />
       </div>
+
+      {/* ================= SIDEBAR ================= */}
       <div className="drawer-side">
-        <Link to="/">
-            <img className="w-50 h-16" src={logo} alt="ParcelHub logo" />
-          </Link>
-        <label
-          htmlFor="my-drawer-3"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
-          {/* Sidebar content here */}
+        <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
+
+        <ul className="menu bg-base-200 min-h-full w-80 p-4 space-y-1">
+          {/* 🔹 Logo */}
+          <NavLink to="/">
+            <img className="w-40 h-14 mb-4" src={logo} alt="logo" />
+          </NavLink>
+
+          {/* 🔹 Common Links */}
           <li>
-            <Link to="/dashboard" className="flex items-center gap-2">
+            <NavLink to="/dashboard" end className={navClass}>
               <FaHome /> Home
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to="/dashboard/myParcels" className="flex items-center gap-2">
+            <NavLink to="/dashboard/myParcels" className={navClass}>
               <FaBox /> My Parcels
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
+            <NavLink
               to="/dashboard/paymentHistory"
-              className="flex items-center gap-2"
+              className={navClass}
             >
               <FaMoneyBill /> Payment History
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link to="/dashboard/track" className="flex items-center gap-2">
+            <NavLink to="/dashboard/track" className={navClass}>
               <FaSearch /> Track a Package
-            </Link>
+            </NavLink>
           </li>
 
           <li>
-            <Link
-              to="/dashboard/updateProfile"
-              className="flex items-center gap-2"
-            >
-              <FaUserEdit /> Update Profile
-            </Link>
+            <NavLink to="/dashboard/profile" className={navClass}>
+              <FaUserEdit /> Profile
+            </NavLink>
           </li>
-          {/* rider links */}
-          {
-            !roleLoading && role === 'rider' && <>
-            
-            <li>
-                <Link
-                  to="/dashboard/pending-deliveries"
-                  className="flex items-center gap-2"
-                >
-                  <FaTasks /> Pending Deliveries
-                </Link>
-              </li>
-            <li>
-                <Link
-                  to="/dashboard/completed-deliveries"
-                  className="flex items-center gap-2"
-                >
-                  <FaCheckCircle /> Completed Deliveries
-                </Link>
-              </li>
-            <li>
-                <Link
-                  to="/dashboard/my-earnings"
-                  className="flex items-center gap-2"
-                >
-                  <FaWallet />My Earnings
-                </Link>
-              </li>
-            
-            </>
-          }
 
-          {/* admin links */}
-          { !roleLoading && role === 'admin' &&
+          {/* 🔹 Rider Links */}
+          {!roleLoading && role === "rider" && (
             <>
               <li>
-                <Link
-                  to="/dashboard/assign-rider"
-                  className="flex items-center gap-2"
+                <NavLink
+                  to="/dashboard/pending-deliveries"
+                  className={navClass}
                 >
-                  <FaMotorcycle /> Assign Rider
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard/active-riders"
-                  className="flex items-center gap-2"
-                >
-                  <FaUserCheck /> Active Riders
-                </Link>
+                  <FaTasks /> Pending Deliveries
+                </NavLink>
               </li>
 
               <li>
-                <Link
-                  to="/dashboard/pending-riders"
-                  className="flex items-center gap-2"
+                <NavLink
+                  to="/dashboard/completed-deliveries"
+                  className={navClass}
                 >
-                  <FaUserClock /> Pending Riders
-                </Link>
+                  <FaCheckCircle /> Completed Deliveries
+                </NavLink>
               </li>
 
               <li>
-                <Link
-                  to="/dashboard/makeAdmin"
-                  className="flex items-center gap-2"
+                <NavLink
+                  to="/dashboard/my-earnings"
+                  className={navClass}
                 >
-                  <FaUserShield /> Make Admin
-                </Link>
+                  <FaWallet /> My Earnings
+                </NavLink>
               </li>
             </>
-          }
+          )}
+
+          {/* 🔹 Admin Links */}
+          {!roleLoading && role === "admin" && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/assign-rider"
+                  className={navClass}
+                >
+                  <FaMotorcycle /> Assign Rider
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/active-riders"
+                  className={navClass}
+                >
+                  <FaUserCheck /> Active Riders
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/pending-riders"
+                  className={navClass}
+                >
+                  <FaUserClock /> Pending Riders
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/makeAdmin"
+                  className={navClass}
+                >
+                  <FaUserShield /> Make Admin
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </div>

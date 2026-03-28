@@ -17,6 +17,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import Loading from "../../../components/Loading";
 
 const AdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -71,7 +72,7 @@ const AdminDashboard = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center py-10">
-        <span className="loading loading-spinner loading-lg"></span>
+        <Loading></Loading>
       </div>
     );
   }

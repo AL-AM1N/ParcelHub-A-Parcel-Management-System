@@ -25,12 +25,12 @@ const Coverage = () => {
     }
 
     return (
-        <div>
+        <div className='bg-white space-y-6 p-6 rounded-4xl place-items-center'>
             <h2 className="text-5xl">We are available in 64 districts</h2>
-            <div>
+            <div className='w-2xl place-items-center'>
                 {/* search  */}
-                <form onSubmit={handleSearch}>
-                    <label className="input">
+                <form className=' w-full' onSubmit={handleSearch}>
+                    <label className="input w-full">
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g
                                 strokeLinejoin="round"
@@ -54,7 +54,7 @@ const Coverage = () => {
                     center={position}
                     zoom={8}
                     scrollWheelZoom={false}
-                    className='h-[800px]'
+                    className='h-200'
                     ref={mapRef}
                 >
                     <TileLayer

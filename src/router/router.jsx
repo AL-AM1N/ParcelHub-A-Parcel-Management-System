@@ -25,6 +25,7 @@ import CompletedDeliveries from "../pages/Dashboard/CompletedDeliveries/Complete
 import MyEarnings from "../pages/Dashboard/MyEarnings/MyEarnings";
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import About from "../pages/About/About";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
       {
         path:'track',
         Component:TrackParcel
+      },
+      {
+        path:'profile',
+        Component:Profile
       },
       //rider only routes
       {

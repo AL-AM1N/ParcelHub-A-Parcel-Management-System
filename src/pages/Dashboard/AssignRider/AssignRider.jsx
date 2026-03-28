@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useTrackingLogger from "../../../hooks/useTrackingLogger";
 import useAuth from "../../../hooks/useAuth";
+import Loading from "../../../components/Loading";
 
 const AssignRider = () => {
   const axiosSecure = useAxiosSecure();
@@ -71,7 +72,7 @@ const AssignRider = () => {
   });
 
   if (isLoading) {
-    return <span className="loading loading-spinner loading-lg"></span>;
+    return <Loading></Loading>;
   }
 
   // ✅ Open modal + load riders
